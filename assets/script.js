@@ -9,22 +9,33 @@ const renderBookCard = () => {
   bookFinishedContainer.innerHTML = "";
   bookUnfinishedContainer.innerHTML = "";
   for (let book of books) {
-    const { id, title, author, year } = book;
+    const { id, title, author, year, isComplete } = book;
     const titleElement = document.createElement("p");
     titleElement.innerText = "title " + title;
     const authorElement = document.createElement("p");
     authorElement.innerText = "author " + author;
     const yearElement = document.createElement("p");
     yearElement.innerText = "year " + year;
+    const deleteElement = document.createElement("button");
+    deleteElement.innerText = "Delete";
+    deleteElement.addEventListener("click", () => onDeleteClick(id));
+    const completeElement = document.createElement("button");
+    completeElement.addEventListener("click", () =>
+      onCompleteClick(id, !isComplete)
+    );
 
     const bookElement = document.createElement("div");
     bookElement.appendChild(titleElement);
     bookElement.appendChild(authorElement);
     bookElement.appendChild(yearElement);
+    bookElement.appendChild(deleteElement);
+    bookElement.appendChild(completeElement);
 
     if (book.isComplete) {
+      completeElement.innerText = "Undo";
       bookFinishedContainer.appendChild(bookElement);
     } else {
+      completeElement.innerText = "Complete";
       bookUnfinishedContainer.appendChild(bookElement);
     }
   }
@@ -63,9 +74,25 @@ const onSearchSubmit = (e) => {
 };
 searchForm.addEventListener("submit", onSearchSubmit);
 
+const onDeleteClick = (id) => {
+  const filteredBooks = books.filter((book) => book.id !== id);
+  books = filteredBooks;
+  saveBook();
+  renderBookCard();
+};
+
+const onCompleteClick = (id, isComplete = true) => {
+  const filteredBooks = books.filter((book) => book.id !== id);
+  const selectedBook = books.find((book) => book.id === id);
+  selectedBook.isComplete = isComplete;
+  books = [...filteredBooks, selectedBook];
+  saveBook();
+  renderBookCard();
+};
+
 window.addEventListener("DOMContentLoaded", () => {
   if (localBooks != "" && JSON.parse(localBooks)) {
-    books = JSON.parse(localBooks);
+    saveBook();
     renderBookCard();
   }
 });

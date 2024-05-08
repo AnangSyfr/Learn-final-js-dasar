@@ -1,5 +1,6 @@
 let books = [];
 const bookForm = document.getElementById("bookshelf-form");
+const searchForm = document.getElementById("bookshelf-search-form");
 const bookFinishedContainer = document.getElementById("book-finished");
 const bookUnfinishedContainer = document.getElementById("book-unfinished");
 const localBooks = localStorage.getItem("books");
@@ -10,7 +11,7 @@ const renderBookCard = () => {
   for (let book of books) {
     const { id, title, author, year } = book;
     const titleElement = document.createElement("p");
-    titleElement.innerText = "title" + title;
+    titleElement.innerText = "title " + title;
     const authorElement = document.createElement("p");
     authorElement.innerText = "author " + author;
     const yearElement = document.createElement("p");
@@ -51,6 +52,16 @@ const onFormSubmit = (e) => {
   });
 };
 bookForm.addEventListener("submit", onFormSubmit);
+
+const onSearchSubmit = (e) => {
+  e.preventDefault();
+  const { keyword } = e.target.elements;
+  books = JSON.parse(localStorage.getItem("books"));
+  const filteredBooks = books.filter((book) => book.title.match(keyword.value));
+  books = filteredBooks;
+  renderBookCard();
+};
+searchForm.addEventListener("submit", onSearchSubmit);
 
 window.addEventListener("DOMContentLoaded", () => {
   if (localBooks != "" && JSON.parse(localBooks)) {

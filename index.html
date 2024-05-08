@@ -20,6 +20,7 @@
       <div class="content">
         <div class="card">
           <h2>Masukkan Buku Baru</h2>
+          <div class="spacer"></div>
           <div class="container">
             <form id="bookshelf-form">
               <div class="form-group">
@@ -29,8 +30,12 @@
                   name="judul"
                   id="judul"
                   class="form-control"
+                  placeholder="Masukkan Judul"
+                  required
                 />
               </div>
+              <div class="spacer-sm"></div>
+
               <div class="form-group">
                 <label for="penulis">Penulis</label>
                 <input
@@ -38,33 +43,51 @@
                   name="penulis"
                   id="penulis"
                   class="form-control"
+                  placeholder="Masukkan Penulis"
+                  required
                 />
               </div>
+              <div class="spacer-sm"></div>
+
               <div class="form-group">
                 <label for="tahun">Tahun</label>
                 <input
-                  type="text"
+                  type="number"
                   name="tahun"
                   id="tahun"
                   class="form-control"
+                  placeholder="Masukkan Tahun"
+                  required
                 />
               </div>
+              <div class="spacer"></div>
+
               <div class="form-group">
                 <div class="input-group">
-                  <input type="checkbox" name="is_selesai" id="is_selesai" />
+                  <input
+                    type="checkbox"
+                    name="is_selesai"
+                    id="is_selesai"
+                    style="margin-right: 10px; width: 20px"
+                  />
                   <label for="is_selesai">Selesai Dibaca</label>
                 </div>
               </div>
+              <div class="spacer"></div>
+
               <div class="form-group">
-                <button>Masukkan Buku Ke Rak</button>
+                <button class="btn btn-primary">Masukkan Buku Ke Rak</button>
               </div>
             </form>
           </div>
         </div>
 
+        <div class="spacer"></div>
+
         <div class="card">
           <div class="container">
             <h2>Pencarian</h2>
+            <div class="spacer"></div>
             <form id="bookshelf-search-form">
               <div class="form-group">
                 <label for="">Judul</label>
@@ -73,27 +96,32 @@
                     type="text"
                     name="keyword"
                     id="keyword"
-                    class="form-control"
+                    class="form-control input-search"
+                    placeholder="Cari judul buku"
                   />
-                  <button>Cari</button>
+                  <button class="btn btn-primary btn-search">Cari</button>
                 </div>
               </div>
             </form>
           </div>
         </div>
 
+        <div class="spacer"></div>
+
         <div class="card">
           <div class="container">
             <h2>Belum Selesai Dibaca</h2>
-
+            <div class="spacer"></div>
             <div id="book-unfinished"></div>
           </div>
         </div>
 
+        <div class="spacer"></div>
+
         <div class="card">
           <div class="container">
             <h2>Selesai Dibaca</h2>
-
+            <div class="spacer"></div>
             <div id="book-finished"></div>
           </div>
         </div>

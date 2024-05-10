@@ -127,6 +127,75 @@
         </div>
       </div>
     </div>
+    <div id="modal-edit" class="modal-backdrop modal-close">
+      <div class="modal-content">
+        <div class="card">
+          <button id="btn-close-edit" class="btn btn-close">&#10006;</button>
+          <h2>Edit Buku</h2>
+          <div class="spacer"></div>
+          <div class="container">
+            <form id="bookshelf-edit-form">
+              <input type="hidden" id="edt_id" name="edt_id" />
+              <div class="form-group">
+                <label for="edt_judul">Judul</label>
+                <input
+                  type="text"
+                  name="edt_judul"
+                  id="edt_judul"
+                  class="form-control"
+                  placeholder="Masukkan Judul"
+                  required
+                />
+              </div>
+              <div class="spacer-sm"></div>
+
+              <div class="form-group">
+                <label for="edt_penulis">Penulis</label>
+                <input
+                  type="text"
+                  name="edt_penulis"
+                  id="edt_penulis"
+                  class="form-control"
+                  placeholder="Masukkan Penulis"
+                  required
+                />
+              </div>
+              <div class="spacer-sm"></div>
+
+              <div class="form-group">
+                <label for="edt_tahun">Tahun</label>
+                <input
+                  type="number"
+                  name="edt_tahun"
+                  id="edt_tahun"
+                  class="form-control"
+                  placeholder="Masukkan Tahun"
+                  required
+                />
+              </div>
+              <div class="spacer"></div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <input
+                    type="checkbox"
+                    name="edt_is_selesai"
+                    id="edt_is_selesai"
+                    style="margin-right: 10px; width: 20px"
+                  />
+                  <label for="edt_is_selesai">Selesai Dibaca</label>
+                </div>
+              </div>
+              <div class="spacer"></div>
+
+              <div class="form-group">
+                <button class="btn btn-primary">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="assets/script.js"></script>
   </body>
 </html>

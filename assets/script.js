@@ -1,9 +1,38 @@
 let books = [];
 const bookForm = document.getElementById("bookshelf-form");
 const searchForm = document.getElementById("bookshelf-search-form");
+const editForm = document.getElementById("bookshelf-edit-form");
 const bookFinishedContainer = document.getElementById("book-finished");
 const bookUnfinishedContainer = document.getElementById("book-unfinished");
 const localBooks = localStorage.getItem("books");
+const modalEdit = document.getElementById("modal-edit");
+const btnCloseEdit = document.getElementById("btn-close-edit");
+const edtBookId = document.getElementById("edt_id");
+const edtBookTitle = document.getElementById("edt_judul");
+const edtBookAuthor = document.getElementById("edt_penulis");
+const edtBookYear = document.getElementById("edt_tahun");
+const edtBookIsComplete = document.getElementById("edt_is_selesai");
+
+const toggleEditModal = (action) => {
+  if (action) {
+    modalEdit.classList.remove("modal-close");
+    modalEdit.classList.add("modal-open");
+  } else {
+    modalEdit.classList.remove("modal-open");
+    modalEdit.classList.add("modal-close");
+  }
+};
+btnCloseEdit.addEventListener("click", () => toggleEditModal(false));
+
+const onEditBtnClick = (book) => {
+  const { id, title, author, year, isComplete } = book;
+  edtBookId.value = id;
+  edtBookTitle.value = title;
+  edtBookAuthor.value = author;
+  edtBookYear.value = year;
+  edtBookIsComplete.checked = isComplete;
+  toggleEditModal(true);
+};
 
 const renderBookCard = () => {
   bookFinishedContainer.innerHTML = "";
@@ -31,6 +60,11 @@ const renderBookCard = () => {
     deleteButton.innerText = "Delete";
     deleteButton.addEventListener("click", () => onDeleteClick(id));
 
+    const editButton = document.createElement("button");
+    editButton.classList.add("btn", "btn-primary");
+    editButton.innerText = "Edit";
+    editButton.addEventListener("click", () => onEditBtnClick(book));
+
     const completeButton = document.createElement("button");
     completeButton.classList.add(
       "btn",
@@ -39,6 +73,8 @@ const renderBookCard = () => {
     completeButton.addEventListener("click", () =>
       onCompleteClick(id, !isComplete)
     );
+
+    actionElement.appendChild(editButton);
     actionElement.appendChild(deleteButton);
     actionElement.appendChild(completeButton);
     const spacerElement = document.createElement("div");
@@ -87,6 +123,26 @@ const onFormSubmit = (e) => {
 };
 bookForm.addEventListener("submit", onFormSubmit);
 
+const onEditFormSubmit = (e) => {
+  e.preventDefault();
+  const { edt_id, edt_judul, edt_penulis, edt_tahun, edt_is_selesai } =
+    e.target.elements;
+  const filteredBooks = books.filter((book) => book.id != edt_id.value);
+  let selectedBook = books.find((book) => book.id == edt_id.value);
+  selectedBook = {
+    id: selectedBook.id,
+    title: edt_judul.value,
+    author: edt_penulis.value,
+    year: edt_tahun.value,
+    isComplete: edt_is_selesai.checked,
+  };
+  books = [...filteredBooks, selectedBook];
+  saveBook();
+  renderBookCard();
+  toggleEditModal(false);
+};
+editForm.addEventListener("submit", onEditFormSubmit);
+
 const onSearchSubmit = (e) => {
   e.preventDefault();
   const { keyword } = e.target.elements;
@@ -100,10 +156,15 @@ const onSearchSubmit = (e) => {
 searchForm.addEventListener("submit", onSearchSubmit);
 
 const onDeleteClick = (id) => {
-  const filteredBooks = books.filter((book) => book.id !== id);
-  books = filteredBooks;
-  saveBook();
-  renderBookCard();
+  const isConfirm = confirm("Apakah anda yakin ingin menghapus ini?");
+  if (isConfirm) {
+    const filteredBooks = books.filter((book) => book.id !== id);
+    books = filteredBooks;
+    saveBook();
+    renderBookCard();
+  } else {
+    return;
+  }
 };
 
 const onCompleteClick = (id, isComplete = true) => {

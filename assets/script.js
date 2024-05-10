@@ -116,7 +116,7 @@ const onFormSubmit = (e) => {
     id: +new Date(),
     title: judul.value,
     author: penulis.value,
-    year: tahun.value,
+    year: parseInt(tahun.value),
     isComplete: is_selesai.checked,
   });
   bookForm?.reset();
@@ -127,8 +127,10 @@ const onEditFormSubmit = (e) => {
   e.preventDefault();
   const { edt_id, edt_judul, edt_penulis, edt_tahun, edt_is_selesai } =
     e.target.elements;
-  const filteredBooks = books.filter((book) => book.id != edt_id.value);
-  let selectedBook = books.find((book) => book.id == edt_id.value);
+  const filteredBooks = books.filter(
+    (book) => book.id !== parseInt(edt_id.value)
+  );
+  let selectedBook = books.find((book) => book.id === parseInt(edt_id.value));
   selectedBook = {
     id: selectedBook.id,
     title: edt_judul.value,
